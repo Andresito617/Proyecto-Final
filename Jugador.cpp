@@ -1,7 +1,7 @@
 #include "Jugador.h"
 #include <iostream>
-#include <algorithm> // Para std::remove_if
-#include <map>       // ¡Añade esta línea!
+#include <algorithm>
+#include <map>
 
 // Constructor
 Jugador::Jugador(int id, std::string nombre, int vagonesIniciales)
@@ -28,7 +28,6 @@ int Jugador::getPuntos() const {
     return puntos;
 }
 
-// Métodos para modificar el estado del jugador
 void Jugador::añadirCarta(const TrainCard& carta) {
     manoCartas.push_back(carta);
     // std::cout << nombre << " robó una carta: " << carta.getColor() << ". Cartas en mano: " << manoCartas.size() << std::endl;

@@ -1,11 +1,9 @@
 #include "Juego.h"
 #include <iostream>
-#include <limits> // Para std::numeric_limits y std::streamsize
+#include <limits>
 
-// Constructor
 Juego::Juego() : indiceJugadorActual(0), jugadasUltimaRonda(0), juegoEnUltimaRonda(false) {}
 
-// Métodos de inicialización
 void Juego::inicializarJuego() {
     std::cout << "Inicializando el juego..." << std::endl;
     mapa.inicializarMapa();
@@ -17,8 +15,6 @@ void Juego::inicializarJuego() {
 }
 
 void Juego::configurarJugadores() {
-    // La rúbrica especifica 4 jugadores con 18 vagones.
-    // Podríamos pedir nombres, pero por simplicidad, los creamos por defecto.
     jugadores.emplace_back(1, "Jugador 1", 18);
     jugadores.emplace_back(2, "Jugador 2", 18);
     jugadores.emplace_back(3, "Jugador 3", 18);
@@ -28,10 +24,6 @@ void Juego::configurarJugadores() {
 }
 
 void Juego::repartirCartasIniciales() {
-    // En TTR, se reparten 4 cartas de tren a cada jugador al inicio.
-    // La rúbrica no lo especifica, pero es estándar y necesario para "realizar trayectos".
-    // Si el profe tiene otra regla, ajustamos.
-
     std::cout << "Repartiendo cartas iniciales a los jugadores..." << std::endl;
     const int CARTAS_INICIALES = 4; // Típico en TTR
 
@@ -44,14 +36,12 @@ void Juego::repartirCartasIniciales() {
     }
 }
 
-// Métodos de juego
 void Juego::iniciarBucleJuego() {
-    // La condición principal del bucle es que el juego no haya terminado por completo
     while (!verificarFinDeJuego()) {
         Jugador& jugadorActual = jugadores[indiceJugadorActual];
         std::cout << "\n--- Turno de " << jugadorActual.getNombre() << " ---" << std::endl;
 
-        mostrarEstadoJuego(); // Muestra el mapa y el estado de los jugadores
+        mostrarEstadoJuego();
 
         int opcion;
         bool accionValida = false;
@@ -60,7 +50,7 @@ void Juego::iniciarBucleJuego() {
             std::cout << "Selecciona una acción (1 o 2): ";
             std::cin >> opcion;
 
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar buffer
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             switch (opcion) {
                 case 1: // Robar dos cartas
@@ -74,22 +64,15 @@ void Juego::iniciarBucleJuego() {
                     break;
             }
         }
-
-        // Si estamos en la última ronda, incrementamos el contador de jugadas de la ronda
+        
         if (juegoEnUltimaRonda) {
             jugadasUltimaRonda++;
             std::cout << "Jugadas en la última ronda: " << jugadasUltimaRonda << "/" << numJugadores << std::endl;
         }
 
-        // Pasar al siguiente jugador
         indiceJugadorActual = (indiceJugadorActual + 1) % jugadores.size();
 
-        // Si después de pasar el turno y verificar la condición de fin de juego, el juego
-        // DEBE TERMINAR. Esto maneja la rúbrica "se terminará de jugar esa ronda".
-        // La condición `verificarFinDeJuego()` ahora devolverá `true` si ya se completaron
-        // todos los turnos de la última ronda.
     }
-    // El bucle ha terminado, el juego ha finalizado completamente.
     determinarGanador();
 }
 
@@ -112,31 +95,31 @@ void Juego::mostrarOpcionesTurno(const Jugador& jugador) const {
     std::cout << "\n" << jugador.getNombre() << ", ¿qué quieres hacer?" << std::endl;
     std::cout << "1. Robar dos cartas de vagón." << std::endl;
     std::cout << "2. Reclamar un trayecto." << std::endl;
-    jugador.mostrarMano(); // Muestra la mano del jugador actual
+    jugador.mostrarMano();
 }
 
 bool Juego::procesarAccionRobarCartas(Jugador& jugador) {
     std::cout << jugador.getNombre() << " va a robar dos cartas..." << std::endl;
     if (mazoCartas.getCantidadCartasMazoRobo() == 0 && mazoCartas.getCantidadCartasMazoDescarte() == 0) {
         std::cout << "No quedan cartas para robar. Fin del juego inminente." << std::endl;
-        return false; // O manejar como fin de juego si no hay más opciones
+        return false;
     }
 
     // Robar la primera carta
     TrainCard carta1 = mazoCartas.robarCarta();
-    if (carta1.getColor() == "VACIA") return false; // No hay cartas
+    if (carta1.getColor() == "VACIA") return false;
     jugador.añadirCarta(carta1);
     std::cout << "Robaste: " << carta1.getColor() << std::endl;
 
     // Robar la segunda carta
     TrainCard carta2 = mazoCartas.robarCarta();
-    if (carta2.getColor() == "VACIA") return false; // No hay cartas
+    if (carta2.getColor() == "VACIA") return false;
     jugador.añadirCarta(carta2);
     std::cout << "Robaste: " << carta2.getColor() << std::endl;
 
     std::cout << "Cartas de " << jugador.getNombre() << " después de robar:" << std::endl;
     jugador.mostrarMano();
-    return true; // Acción válida
+    return true;
 }
 
 bool Juego::procesarAccionReclamarTrayecto(Jugador& jugador) {
@@ -146,41 +129,39 @@ bool Juego::procesarAccionReclamarTrayecto(Jugador& jugador) {
 
     if (!rutaSeleccionada) {
         std::cout << "Ruta no encontrada o ya reclamada. Intenta de nuevo." << std::endl;
-        return false; // Acción no válida
+        return false;
     }
 
     if (rutaSeleccionada->propietarioJugadorID != -1) {
         std::cout << "Esa ruta ya ha sido reclamada por " << jugadores[rutaSeleccionada->propietarioJugadorID - 1].getNombre() << ". Elige otra." << std::endl;
-        return false; // Acción no válida
+        return false;
     }
 
     if (jugador.getTrenesRestantes() < rutaSeleccionada->longitud) {
         std::cout << jugador.getNombre() << " no tiene suficientes trenes para reclamar esta ruta ("
                   << rutaSeleccionada->longitud << " trenes necesarios)." << std::endl;
-        return false; // Acción no válida
+        return false;
     }
 
-    // Ahora, verificar las cartas en mano del jugador
     std::vector<TrainCard> cartasUsadas;
     if (!tieneCartasSuficientes(jugador, *rutaSeleccionada, cartasUsadas)) {
         std::cout << jugador.getNombre() << " no tiene las cartas necesarias para reclamar esta ruta." << std::endl;
-        return false; // Acción no válida
+        return false;
     }
 
-    // Si todo está bien, reclamar la ruta
     rutaSeleccionada->reclamar(jugador.getID());
     jugador.gastarTrenes(rutaSeleccionada->longitud);
-    jugador.removerCartas(cartasUsadas); // Quitar las cartas de la mano del jugador
+    jugador.removerCartas(cartasUsadas);
     for (const auto& carta : cartasUsadas) {
-        mazoCartas.descartarCarta(carta); // Poner las cartas en el descarte
+        mazoCartas.descartarCarta(carta);
     }
-    puntuarTrayecto(jugador, *rutaSeleccionada); // Sumar puntos
+    puntuarTrayecto(jugador, *rutaSeleccionada);
 
     std::cout << jugador.getNombre() << " ha reclamado la ruta "
               << mapa.buscarCiudad(idOrigen)->getNombre() << "-"
               << mapa.buscarCiudad(idDestino)->getNombre()
               << " (" << rutaSeleccionada->longitud << " vagones, " << rutaSeleccionada->color << ")." << std::endl;
-    return true; // Acción válida
+    return true;
 }
 
 Ruta* Juego::seleccionarRutaParaReclamar(int& idOrigen, int& idDestino) {
@@ -200,15 +181,11 @@ Ruta* Juego::seleccionarRutaParaReclamar(int& idOrigen, int& idDestino) {
 }
 
 bool Juego::tieneCartasSuficientes(const Jugador& jugador, const Ruta& ruta, std::vector<TrainCard>& cartasUsadas) const {
-    // La rúbrica dice: "Tener el color de las cartas necesarias para cada trayecto."
-    // Asumimos que se necesitan cartas del color de la ruta, o locomotoras (aunque no estén en el mazo,
-    // es una consideración de juego de TTR. Por simplicidad, aquí solo consideramos el color exacto).
 
     int cartasRequeridas = ruta.longitud;
     std::string colorRequerido = ruta.color;
     int cartasDisponiblesDelColor = 0;
 
-    // Contar cartas del color requerido en la mano del jugador
     for (const auto& carta : jugador.getManoCartas()) {
         if (carta.getColor() == colorRequerido) {
             cartasDisponiblesDelColor++;
@@ -216,7 +193,6 @@ bool Juego::tieneCartasSuficientes(const Jugador& jugador, const Ruta& ruta, std
     }
 
     if (cartasDisponiblesDelColor >= cartasRequeridas) {
-        // Recolectar las cartas que se usarán
         int cont = 0;
         for (const auto& carta : jugador.getManoCartas()) {
             if (carta.getColor() == colorRequerido && cont < cartasRequeridas) {
@@ -227,7 +203,7 @@ bool Juego::tieneCartasSuficientes(const Jugador& jugador, const Ruta& ruta, std
         return true;
     }
 
-    return false; // No tiene suficientes cartas del color requerido
+    return false;
 }
 
 void Juego::puntuarTrayecto(Jugador& jugador, const Ruta& ruta) {
@@ -238,15 +214,14 @@ void Juego::puntuarTrayecto(Jugador& jugador, const Ruta& ruta) {
         case 4: puntosGanados = 4; break;
         case 5: puntosGanados = 6; break;
         case 6: puntosGanados = 9; break;
-        default: puntosGanados = 0; break; // Longitudes no estándar o error
+        default: puntosGanados = 0; break;
     }
     jugador.añadirPuntos(puntosGanados);
     std::cout << jugador.getNombre() << " gana " << puntosGanados << " puntos por esta ruta." << std::endl;
 }
 
 bool Juego::verificarFinDeJuego() const {
-    // Si ya estamos en la última ronda y se han completado las jugadas, entonces el juego termina.
-    if (juegoEnUltimaRonda && jugadasUltimaRonda >= numJugadores) { // Usamos numJugadores aquí
+    if (juegoEnUltimaRonda && jugadasUltimaRonda >= numJugadores) {
         return true;
     }
 
@@ -254,9 +229,9 @@ bool Juego::verificarFinDeJuego() const {
         for (const auto& j : jugadores) {
             if (j.getTrenesRestantes() < 5) {
                 std::cout << "\n¡" << j.getNombre() << " tiene menos de 5 trenes! El juego entrará en la última ronda." << std::endl;
-                const_cast<Juego*>(this)->juegoEnUltimaRonda = true; // Activa la bandera (necesita const_cast)
-                const_cast<Juego*>(this)->jugadasUltimaRonda = 0; // Reinicia el contador para la última ronda
-                return false; // El juego NO termina aún, solo entra en la última ronda
+                const_cast<Juego*>(this)->juegoEnUltimaRonda = true;
+                const_cast<Juego*>(this)->jugadasUltimaRonda = 0;
+                return false;
             }
         }
     }
@@ -273,10 +248,8 @@ void Juego::determinarGanador() const {
         std::cout << j.getNombre() << ": " << j.getPuntos() << " puntos." << std::endl;
         if (j.getPuntos() > maxPuntos) {
             maxPuntos = j.getPuntos();
-            ganador = const_cast<Jugador*>(&j); // Necesario porque 'j' es const
+            ganador = const_cast<Jugador*>(&j);
         } else if (j.getPuntos() == maxPuntos && ganador != nullptr) {
-            // Empate: la rúbrica no especifica desempate, el primero en alcanzarlo gana por defecto aquí.
-            // Para TTR real, el más largo o más tickets podrían desempatar.
         }
     }
 

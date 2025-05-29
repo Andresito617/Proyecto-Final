@@ -1,38 +1,33 @@
-#include "Ruta.h"   // Incluimos el archivo de cabecera de la clase Ruta
-#include <iostream> // Necesario para std::cout
+#include "Ruta.h" 
+#include <iostream> 
 
-// Constructor de la clase Ruta
 Ruta::Ruta(int idOrigen, int idDestino, std::string colorRuta, int longitudRuta) :
-    idOrigenCiudad(idOrigen),      // Inicializa el ID de la ciudad de origen
-    idDestinoCiudad(idDestino),    // Inicializa el ID de la ciudad de destino
-    color(colorRuta),              // Inicializa el color de la ruta
-    longitud(longitudRuta),        // Inicializa la longitud de la ruta
-    propietarioJugadorID(-1)       // Por defecto, la ruta está libre
+    idOrigenCiudad(idOrigen),      
+    idDestinoCiudad(idDestino),    
+    color(colorRuta),              
+    longitud(longitudRuta),
+    propietarioJugadorID(-1)
 {
-    // El cuerpo del constructor puede estar vacío
+    
 }
-
-// Implementación del método estaLibre
 bool Ruta::estaLibre() const {
     return propietarioJugadorID == -1;
 }
 
-// Implementación del método reclamar
+
 void Ruta::reclamar(int jugadorID) {
     if (estaLibre()) {
         propietarioJugadorID = jugadorID;
-        // Podríamos añadir alguna validación o lanzar una excepción si ya estuviera reclamada
+        
     } else {
         std::cout << "Error: La ruta ya ha sido reclamada por el jugador " << propietarioJugadorID << std::endl;
     }
 }
 
-// Implementación del método getPropietarioID
 int Ruta::getPropietarioID() const {
     return propietarioJugadorID;
 }
 
-// Implementación del método mostrarInformacion
 void Ruta::mostrarInformacion() const {
     std::cout << "Ruta: " << idOrigenCiudad << " <-> " << idDestinoCiudad
               << " | Color: " << color

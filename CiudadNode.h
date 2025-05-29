@@ -1,7 +1,6 @@
 #ifndef CIUDAD_NODE_H
 #define CIUDAD_NODE_H
-
-#include "Ciudad.h" // Incluye la clase Ciudad
+#include "Ciudad.h" 
 
 class CiudadNode {
 public:
@@ -10,7 +9,7 @@ public:
     CiudadNode* derecha;
 
     CiudadNode(Ciudad& c);
-    ~CiudadNode(); // Destructor para liberar memoria de nodos hijos
+    ~CiudadNode();
 };
 
 #endif // CIUDAD_NODE_H

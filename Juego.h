@@ -3,12 +3,12 @@
 
 #include <vector>
 #include <string>
-#include <limits> // Para std::numeric_limits
-#include <algorithm> // Para std::find_if
+#include <limits>
+#include <algorithm>
 #include "Mapa.h"
 #include "TrainDeck.h"
 #include "BoardRenderer.h"
-#include "Jugador.h" // ¡Incluimos la clase Jugador!
+#include "Jugador.h"
 
 class Juego {
 private:
@@ -20,8 +20,6 @@ private:
     int jugadasUltimaRonda;
     int numJugadores;
     bool juegoEnUltimaRonda;
-
-    // Métodos privados auxiliares
     void configurarJugadores();
     void repartirCartasIniciales();
     void mostrarEstadoJuego();
@@ -34,9 +32,9 @@ private:
 
 
 public:
-    Juego(); // Constructor
+    Juego();
     void inicializarJuego();
-    void iniciarBucleJuego(); // El bucle principal del juego
+    void iniciarBucleJuego();
     bool verificarFinDeJuego() const;
     void determinarGanador() const;
 };

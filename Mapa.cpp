@@ -1,10 +1,9 @@
 #include "Mapa.h"
 #include "Ruta.h"
-#include "BoardRenderer.h" // Nuevo nombre
+#include "BoardRenderer.h"
 #include <iostream>
 #include <algorithm>
 
-// Constructor, destructor y métodos BST auxiliares con nombres actualizados
 Mapa::Mapa() : raiz(nullptr) {}
 
 Mapa::~Mapa() {
@@ -71,7 +70,6 @@ const std::vector<Ruta>& Mapa::getTodasLasRutas() const {
 
 // inicializarMapa (sin cambios, ya que crea las ciudades y rutas con sus IDs)
 void Mapa::inicializarMapa() {
-    // 1. Crear las 19 ciudades (A-S) y añadirlas al BST
     insertarCiudad(Ciudad("A", 0)); // ID 0
     insertarCiudad(Ciudad("B", 1)); // ID 1
     insertarCiudad(Ciudad("C", 2)); // ID 2
@@ -92,7 +90,6 @@ void Mapa::inicializarMapa() {
     insertarCiudad(Ciudad("R", 17)); // ID 17
     insertarCiudad(Ciudad("S", 18)); // ID 18
 
-    // 2. Crear las 24 rutas predefinidas y añadirlas al vector todasLasRutas
     todasLasRutas.emplace_back(3, 4, "Marron", 2);   // D-E
     todasLasRutas.emplace_back(4, 1, "Verde", 2);    // E-B
     todasLasRutas.emplace_back(1, 0, "Rojo", 2);     // B-A
@@ -135,19 +132,19 @@ Ruta* Mapa::obtenerRuta(int idOrigen, int idDestino) {
     return nullptr;
 }
 
-void Mapa::mostrarMapa(BoardRenderer& renderer) { // Renombrado a renderer
+void Mapa::mostrarMapa(BoardRenderer& renderer) {
     std::cout << "\n--- Estado Actual del Tablero ---" << std::endl;
 
     std::vector<Ciudad*> ciudadesDelMapa = getTodasLasCiudades();
     const std::vector<Ruta>& rutasDelMapa = getTodasLasRutas();
 
-    renderer.generateBoard(ciudadesDelMapa, rutasDelMapa); // Renombrado a generateBoard
-    renderer.renderBoard(); // Renombrado a renderBoard
+    renderer.generateBoard(ciudadesDelMapa, rutasDelMapa);
+    renderer.renderBoard();
 
     std::cout << "------------------------------------------\n" << std::endl;
 }
 
-void Mapa::mostrarBSTInOrder(CiudadNode* nodo) const { // Renombrado a CiudadNode
+void Mapa::mostrarBSTInOrder(CiudadNode* nodo) const {
     if (nodo != nullptr) {
         mostrarBSTInOrder(nodo->izquierda);
         nodo->ciudad.mostrarInformacion();

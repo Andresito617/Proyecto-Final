@@ -7,7 +7,7 @@ class TrainCard {
 public:
     std::string color;
 
-    TrainCard(std::string c = "Locomotora"); // Constructor con color por defecto "Locomotora"
+    TrainCard(std::string c = "Locomotora"); 
     void mostrarInformacion() const;
     std::string getColor() const;
     bool esLocomotora() const;

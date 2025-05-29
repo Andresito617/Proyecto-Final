@@ -1,13 +1,10 @@
 #include "BoardRenderer.h"
 #include <iostream>
-#include <iomanip> // Para std::setw
-#include <cmath>   // Para std::abs
+#include <iomanip>
+#include <cmath>  
 
-// Constructor: (Coordenadas de ciudades se mantienen igual que en la última versión, sin offset)
 BoardRenderer::BoardRenderer() {
     inicializarGrid();
-    // Definir las coordenadas fijas para nuestras 19 ciudades (A-S)
-    // Basado en el grid de la imagen (ROW, COL) - Cuidado: la imagen es 1-indexed, aquí usamos 0-indexed para el array
     ciudadCoordenadas[0] = {7, 1}; // A (Row 8, Col 2) -> (7, 1)
     ciudadIDToChar[0] = 'A';
     ciudadCoordenadas[1] = {4, 5}; // B (Row 5, Col 6) -> (4, 5)
@@ -99,7 +96,6 @@ void BoardRenderer::generateBoard(const std::vector<Ciudad*>& ciudades, const st
     inicializarGrid();
     colocarCiudades(ciudades);
 
-    // Dibujar las rutas. La lógica sigue siendo la misma, pero ahora usando las nuevas coordenadas 0-indexed.
     for (const auto& ruta : rutas) {
         int id1 = ruta.idOrigenCiudad;
         int id2 = ruta.idDestinoCiudad;

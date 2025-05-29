@@ -3,27 +3,27 @@
 
 #include <vector>
 #include <string>
-#include <random> // Para std::mt19937 y std::shuffle
-#include <algorithm> // Para std::shuffle
-#include "TrainCard.h" // Incluye la nueva clase TrainCard
+#include <random> 
+#include <algorithm>
+#include "TrainCard.h"
 
 class TrainDeck {
 private:
-    std::vector<TrainCard> mazoRobo;     // Cartas para robar
-    std::vector<TrainCard> mazoDescarte; // Cartas descartadas
-    std::mt19937 rng; // Generador de números aleatorios
+    std::vector<TrainCard> mazoRobo;    
+    std::vector<TrainCard> mazoDescarte; 
+    std::mt19937 rng; 
 
-    void reponerMazoRoboDesdeDescarte(); // Método privado para reponer el mazo
+    void reponerMazoRoboDesdeDescarte(); 
 
 public:
-    TrainDeck(); // Constructor
-    void inicializarMazo(); // Llena el mazo con cartas y lo baraja
-    TrainCard robarCarta(); // Roba una carta del mazo de robo
-    void descartarCarta(TrainCard carta); // Añade una carta al mazo de descarte
+    TrainDeck(); 
+    void inicializarMazo();
+    TrainCard robarCarta(); 
+    void descartarCarta(TrainCard carta); 
 
     int getCantidadCartasMazoRobo() const;
     int getCantidadCartasMazoDescarte() const;
-    void mostrarMazoDescarte() const; // Para depuración
+    void mostrarMazoDescarte() const; 
 };
 
 #endif // TRAIN_DECK_H

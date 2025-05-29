@@ -1,25 +1,23 @@
 #ifndef MAPA_H
 #define MAPA_H
 
-#include "CiudadNode.h" // Nuevo nombre
+#include "CiudadNode.h"
 #include "Ciudad.h"
 #include "Ruta.h"
 #include <vector>
 #include <map>
 
-class BoardRenderer; // Nuevo nombre: Forward declaration de la clase de display
+class BoardRenderer;
 
 class Mapa {
 private:
-    CiudadNode* raiz; // Nuevo nombre
+    CiudadNode* raiz;
     std::vector<Ruta> todasLasRutas;
-
-    // Métodos BST auxiliares
-    CiudadNode* insertarCiudadRecursivo(CiudadNode* nodo, Ciudad& ciudad); // Nuevo nombre
-    CiudadNode* buscarCiudadRecursivo(CiudadNode* nodo, int idCiudad) const; // Nuevo nombre
-    void destruirBST(CiudadNode* nodo); // Nuevo nombre
-    void mostrarBSTInOrder(CiudadNode* nodo) const; // Nuevo nombre
-    void recolectarCiudades(CiudadNode* nodo, std::vector<Ciudad*>& ciudades) const; // Nuevo nombre
+    CiudadNode* insertarCiudadRecursivo(CiudadNode* nodo, Ciudad& ciudad);
+    CiudadNode* buscarCiudadRecursivo(CiudadNode* nodo, int idCiudad) const;
+    void destruirBST(CiudadNode* nodo);
+    void mostrarBSTInOrder(CiudadNode* nodo) const;
+    void recolectarCiudades(CiudadNode* nodo, std::vector<Ciudad*>& ciudades) const;
 
 public:
     Mapa();
