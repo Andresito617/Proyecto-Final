@@ -90,30 +90,27 @@ void Mapa::inicializarMapa() {
     insertarCiudad(Ciudad("R", 17)); // ID 17
     insertarCiudad(Ciudad("S", 18)); // ID 18
 
-    todasLasRutas.emplace_back(3, 4, "Marron", 2);   // D-E
-    todasLasRutas.emplace_back(4, 1, "Verde", 2);    // E-B
+    // --- RUTAS ---
+    todasLasRutas.emplace_back(3, 4, "Marron", 2);    // D-E
     todasLasRutas.emplace_back(1, 0, "Rojo", 2);     // B-A
     todasLasRutas.emplace_back(0, 5, "Azul", 4);     // A-F
     todasLasRutas.emplace_back(5, 4, "Verde", 2);    // F-E
     todasLasRutas.emplace_back(5, 6, "Naranja", 3);  // F-G
     todasLasRutas.emplace_back(6, 2, "Marron", 2);   // G-C
     todasLasRutas.emplace_back(7, 5, "Naranja", 2);  // H-F
+    todasLasRutas.emplace_back(8, 14, "Morado", 2);  // I-O 
+    todasLasRutas.emplace_back(16, 18, "Azul", 3);   // Q-S 
     todasLasRutas.emplace_back(7, 8, "Rojo", 2);     // H-I
-    todasLasRutas.emplace_back(8, 9, "Azul", 2);     // I-J
     todasLasRutas.emplace_back(9, 13, "Naranja", 3); // J-N
     todasLasRutas.emplace_back(13, 14, "Azul", 2);   // N-O
     todasLasRutas.emplace_back(14, 17, "Morado", 3); // O-R
-    todasLasRutas.emplace_back(17, 18, "Marron", 2); // R-S
     todasLasRutas.emplace_back(10, 7, "Verde", 2);   // K-H
     todasLasRutas.emplace_back(10, 8, "Morado", 2);  // K-I
     todasLasRutas.emplace_back(10, 11, "Naranja", 3); // K-L
     todasLasRutas.emplace_back(10, 15, "Verde", 3);  // K-P
-    todasLasRutas.emplace_back(11, 12, "Naranja", 2); // L-M
-    todasLasRutas.emplace_back(11, 16, "Rojo", 2);   // L-Q
     todasLasRutas.emplace_back(12, 16, "Morado", 2); // M-Q
-    todasLasRutas.emplace_back(16, 15, "Verde", 3);  // Q-P
     todasLasRutas.emplace_back(15, 14, "Naranja", 2); // P-O
-    todasLasRutas.emplace_back(15, 18, "Azul", 2);   // P-S
+    todasLasRutas.emplace_back(15, 16, "Verde", 3);  // P-Q
 
     std::cout << "Mapa inicializado con " << getTodasLasCiudades().size() << " ciudades y " << todasLasRutas.size() << " rutas." << std::endl;
 }
